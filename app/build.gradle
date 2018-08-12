@@ -49,4 +49,7 @@ dependencies {
     //OkHttp
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
 
+    //anko library, as suggested from: https://stackoverflow.com/a/44354505/5770629
+    implementation 'org.jetbrains.anko:anko-commons:0.10.1'
+
 }

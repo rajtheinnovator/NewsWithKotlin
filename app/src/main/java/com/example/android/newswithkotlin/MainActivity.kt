@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.io.IOException
 
 
@@ -34,24 +35,30 @@ class MainActivity : AppCompatActivity() {
         //TODO: Add content to recyclerView.(kt files needed: POJO - News, RecyclerViewAdapter,
         // TODO: AsyncTaskLoader, QueryUtils (future dev: SettingsActivity, SearchActivity))
 
-        recyclerView = findViewById(R.id.recycler_view)
+        recyclerView = this.findViewById(R.id.recycler_view)
 
         //establish connection using OkHttp
         fetchDataUsingOkHttp()
     }
 
     private fun fetchDataUsingOkHttp() {
-
         val client = OkHttpClient.Builder()
                 .build()
         val request = Request.Builder()
                 .url(HttpUrl.parse("http://content.guardianapis.com/search?q=sport&order-by=newest&api-key=0a397f99-4b95-416f-9c51-34c711f0069a&show-tags=contributor"))
                 .build()
+        //okHttp code referenced from: https://stackoverflow.com/a/45219917/5770629
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {}
             override fun onResponse(call: Call, response: Response) {
-                Log.v("my_tag", "data received in OkHttp is: " + response.body()?.string())
-                setupRecyclerView(applicationContext, JsonUtils.extractFeatureFromJson(response.body()?.string()))
+                //help on asynck-anko library from: https://medium.com/@andrea.bresolin/playing-with-kotlin-in-android-coroutines-and-how-to-get-rid-of-the-callback-hell-a96e817c108b
+
+                doAsync {
+                    uiThread {
+                        val jsonUtils = JsonUtils()
+                        setupRecyclerView(applicationContext, jsonUtils.extractFeatureFromJson(response.body()?.string()))
+                    }
+                }
             }
         })
     }
