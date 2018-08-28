@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), SearchDialogFragment.userQueryListener
 
         //initialize views
         recyclerView = findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
         recyclerView.adapter = RecyclerViewAdapter(ArrayList<News>(), this)
 
         emptyView = findViewById(R.id.empty_view)

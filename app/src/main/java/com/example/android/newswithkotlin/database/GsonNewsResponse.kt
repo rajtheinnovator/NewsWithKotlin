@@ -50,8 +50,8 @@ data class News(
         @Expose
         @SerializedName("tags")
         val tags: ArrayList<ContributerContent> = ArrayList()) : Parcelable {
-    @Ignore
-    constructor () : this("title", "webUrl", 0,0, ArrayList<ContributerContent>())
+        @Ignore
+        constructor () : this("title", "webUrl", 0, 0, ArrayList<ContributerContent>())
 }
 
 

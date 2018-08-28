@@ -17,18 +17,19 @@ abstract class NewsDataBase : RoomDatabase() {
 
     companion object {
         private val DB_NAME = "news.db"
-       @Volatile private var INSTANCE: NewsDataBase? = null
+        @Volatile
+        private var INSTANCE: NewsDataBase? = null
 
         fun getInstance(context: Context): NewsDataBase =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: buildDatabase(context).also{INSTANCE = it}
-            }
+                INSTANCE ?: synchronized(this) {
+                    INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+                }
 
         private fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext,
                         NewsDataBase::class.java, DB_NAME)
                         .build()
-        }
+    }
 
     // The same as not so deep Kotlin:
 
@@ -46,7 +47,7 @@ abstract class NewsDataBase : RoomDatabase() {
     //       return INSTANCE
     //    }
 
-        fun destroyInstance() {
-            INSTANCE = null
-        }
+    fun destroyInstance() {
+        INSTANCE = null
     }
+}

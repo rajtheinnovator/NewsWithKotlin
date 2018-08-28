@@ -14,7 +14,7 @@ interface NewsDao {
     fun loadAllNews(): LiveData<List<News>>
 
     //a method to insert one news item.
-    @Insert (onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNews(newsItem: News)
 
     //a method to update news
@@ -35,11 +35,11 @@ interface NewsDao {
 
     //a method to select news item with favorites column value
     @Query("SELECT * FROM newstable WHERE favorite = :favorite")
-    fun loadFavorites(favorite: Int):LiveData<List<News>>
+    fun loadFavorites(favorite: Int): LiveData<List<News>>
 
     //a method to select news item with favorites column value and return a list
     @Query("SELECT * FROM newstable WHERE favorite = :favorite")
-    fun loadFavoritesInAList(favorite: Int):List<News>
+    fun loadFavoritesInAList(favorite: Int): List<News>
 
 
     //a method to select news item with title
